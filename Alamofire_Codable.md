@@ -42,12 +42,12 @@
   ```
   > `method` 파라미터의 default 값은 `.get`
  
-#### Paramether Encoding - `parameters` - `encoding`
-Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원  
-`ParameterEncoding` protocel을 준수하는 범위에서 custom encoding을 지원  
-`JSONEncoding`만 소개  
+#### Paramether Encoding - `parameters`, `encoding`   
+  > * Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원  
+  > * `ParameterEncoding` protocel을 준수하는 범위에서 custom encoding을 지원  
+  > * `JSONEncoding`만 소개  
 * **JSONEncoding**
-  >  `JSONEncoding` 타입은 `parameters` 객체를 JSON 표현으로 인코딩함
+  > `JSONEncoding` 타입은 `parameters` 객체를 JSON 표현으로 인코딩함  
   > HTTP Header의 `Content-Type` 이  `application/json` 으로 설정됨
   ```swift
   let parameters = [
@@ -60,8 +60,23 @@ Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형�
   
   // HTTP body: {"name": "iOS", "age": 24}
   ```
+ 
 #### HTTP Headers - `headers`
-  >
+  > HTTPHeaders 타입의 헤더를 설정할 수 있음
+  ```swift
+  let headers: HTTPHeaders = [
+	  "Authorization": "QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
+	  "Accept": "application/json"
+  ]
+  
+  Alamofire.request("https://httpbin.org/headers", headers: headers).responseJSON { response in
+	  print(response)
+  }
+  ```
+  > 변경되지 않는 HTTP헤더는 URLSessionConfiguration에 설정하여 기본 URLSession에서 만든 URLSessionTask에 자동으로 적용하는 것이 좋음  
+  > 자세한 내용은 [Session Manager Configurations](AdvancedUsage.md#session-manager) 참조
+
+#### Response Handling
 
 ## Codable
 > `Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
