@@ -11,39 +11,46 @@
 ### Request
 
 > 서버에 요청을 보내기 위해 제공되는 함수
+>
 > `Alamofire.request` 에 다양한 argument 가 존재
 
- * 기본 사용법
+ * **기본 사용법**
+    ```swift
+    Alamofire.request("http://myurl.com")
+    ```
+ * **HTTP Methods** - `method`
+ 
  ```swift
- Alamofire.request("http://myurl.com")
+    public enum HTTPMethod: String {
+        case options = "OPTIONS"
+        case get     = "GET"
+        case head    = "HEAD"
+        case post    = "POST"
+        case put     = "PUT"
+        case patch   = "PATCH"
+        case delete  = "DELETE"
+        case trace   = "TRACE"
+        case connect = "CONNECT"
+    }
  ```
- * HTTP Methods - `method`
- > HTTPMethod enum 이 이미 정의되어있다.
- ```swift
- public enum HTTPMethod: String {
-    case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
-    case connect = "CONNECT"
- }
- ```
-대표적으로 REST API 에서 쓰이는 get, post, put, delete 를 인자로 전달할수 있다.
-```swift
-Alamofire.request("https://myurl.com/get")
-Alamofire.request("https://myurl.com/post", method: .post)
-Alamofire.request("https://myurl.com/put", method: .put)
-Alamofire.request("https://myurl.com/delete", method: .delete)
-```
- > `method` 파라미터의 default 값은 `.get`
+
+> HTTPMethod enum 이 이미 정의되어있다.
+ 
+  대표적으로 REST API 에서 쓰이는 get, post, put, delete 를 인자로 전달할 수 있다.
+  ```swift
+  Alamofire.request("https://myurl.com/get")
+  Alamofire.request("https://myurl.com/post", method: .post)
+  Alamofire.request("https://myurl.com/put", method: .put)
+  Alamofire.request("https://myurl.com/delete", method: .delete)
+  ```
+  > `method` 파라미터의 default 값은 `.get`
  
  * Paramether Encoding - `parameters` - `encoding`
 > Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원
+>
 > JSONEncoding 만 소개
+
+**JSONEncodig**
 
 
 ## Codable
