@@ -18,7 +18,7 @@
   ```swift
   Alamofire.request("http://myurl.com")
   ```
-**HTTP Methods** - `method`
+#### HTTP Methods - `method`
   ```swift
   public enum HTTPMethod: String {
 	  case options = "OPTIONS"
@@ -32,7 +32,7 @@
 	  case connect = "CONNECT"
   }
   ```
-  > HTTPMethod enum 이 이미 정의되어있다.
+  > HTTPMethod enum 이 이미 정의되어있다.  
   대표적으로 REST API 에서 쓰이는 get, post, put, delete 를 인자로 전달할 수 있다.
   ```swift
   Alamofire.request("https://myurl.com/get")
@@ -42,10 +42,10 @@
   ```
   > `method` 파라미터의 default 값은 `.get`
  
-**Paramether Encoding** - `parameters` - `encoding`
-> Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원
-> `ParameterEncoding` protocel을 준수하는 범위에서 custom encoding을 지원
-> `JSONEncoding`만 소개
+#### Paramether Encoding - `parameters` - `encoding`
+Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원  
+`ParameterEncoding` protocel을 준수하는 범위에서 custom encoding을 지원  
+`JSONEncoding`만 소개  
 * **JSONEncoding**
   >  `JSONEncoding` 타입은 `parameters` 객체를 JSON 표현으로 인코딩함
   > HTTP Header의 `Content-Type` 이  `application/json` 으로 설정됨
@@ -60,7 +60,8 @@
   
   // HTTP body: {"name": "iOS", "age": 24}
   ```
-
+#### HTTP Headers - `headers`
+  >
 
 ## Codable
 > `Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
