@@ -233,7 +233,7 @@ if let jsonData = jsonData, let jsonString = String(data: jsonData, encoding: .u
 }
 ```
   
-JSON으로 변환할때 encoder에 `.outputFormatting` 옵션을 줄 수 있다.
+> JSON으로 변환할때 encoder에 `.outputFormatting` 옵션을 줄 수 있다.
 ```swift
 encoder.outputFormatting = .sortedKeys // key값으로 JSON 데이터를 정렬
 encoder.outputFormatting = .prettyPrinted
@@ -257,11 +257,11 @@ if let data = data, let myPerson = try? decoder.decode(Person.self, from: data) 
 ```
 
 #### CodingKeys
-만약 JSON의 key 와 다른 이름으로 지정하고 싶다면 `CodingKeys`를 설정해주어야 한다.
+> 만약 JSON의 key 와 다른 이름으로 지정하고 싶다면 `CodingKeys`를 설정해주어야 한다.
 ```swift
 struct Person: Codable {
     var myName: String
-    var myAge: String
+    var myAge: Int
 
     enum CodingKeys: String, CodingKey {
         case myName = "name"
@@ -269,8 +269,7 @@ struct Person: Codable {
     }
 }
 ```
-  
-Swift 4.1 부터는 snake_case 인 JSON 키값을 자동으로 camelCase의 key와 매칭가능하다고 한다.
+> Swift 4.1 부터는 snake_case 인 JSON key를 자동으로 camelCase의 key와 매칭가능하다고 한다.
 ```swift
 {
 	"my_name" : "iOS",
@@ -282,7 +281,7 @@ decoder.keyDecodingStrategy = .convertFromSnakeCase // 이부분에서 설정
 ```
 
 #### 특정 key, value가 없는 경우
-Object는 key, value가 존재하거나 존재하지 않을 수 있기 때문에 특정 key가 없이 데이터가 내려올 수 있다.
+> Object는 key, value가 존재하거나 존재하지 않을 수 있기 때문에 특정 key가 없이 데이터가 내려올 수 있다.
 ```swift
 * before
 {
@@ -295,8 +294,45 @@ Object는 key, value가 존재하거나 존재하지 않을 수 있기 때문에
 	"name": "Swift"
 }
 ```
-위와 같이 이전에 잘 내려오고 있던 데이터가 갑자기 특정 key가 안내려온다면 `keyNotFound` 에러 발생  
+> 위와 같이 이전에 잘 내려오고 있던 데이터가 갑자기 특정 key가 안내려온다면 `keyNotFound` 에러 발생  
   
 ```swift
+struct Person: Codable {
+    var myName: String
+    var myAge: Int
 
+    enum CodingKeys: String, CodingKey {
+        case myName = "name"
+        case myAge = "age"
+    }
+
+	init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+      	myName = (try? values.decode(String.self, forKey: .a)) ?? ""
+        myAge = (try? values.decode(String.self, forKey: .y)) ?? ""
+    }
+}
 ```
+> 이런식으로 직접 decode를 하고 기본값을 넣어주는 방식으로 해결하거나
+```swift
+struct Person: Codable {
+    var myName: String
+    var myAge: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case myName = "name"
+        case myAge = "age"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        myName = (try? values.decode(String.self, forKey: .a)) ?? ""
+        myAge = (try? values.decodeIfPresent(String.self, forKey: .y))
+    }
+}
+```
+> 옵셔널로 선언한다. 이 경우에는 key에대한 value가 null일때에도 동일하다.
+
+## Alamofire & Codable model
+Alamofire와 Codable을 이용한 request 사용법
+
