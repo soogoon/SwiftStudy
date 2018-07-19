@@ -170,9 +170,39 @@ Alamofire.request("https://myurl.com/get").validate().responseData { response in
     }
 }
 ```
-
-
+  
+  
+  
 ## Codable
-> `Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
-> 
-> 
+`Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
+```swift
+typealias Codable = Decodable & Encodable
+```
+  
+###정의
+> A type that can convert itself into and out of an external representation.  
+> 자신을 변환하거나 외부표현으로 변환할 수 있는 타입  
+> Decodable : 자신을 외부표현(external representation)에서 디코딩 할 수 있는 타입  
+> Encodable : 자신을 외부표현(external representation)으로 인코딩 할 수 있는 타입  
+> 외부표현은 JSON 이라고 생각하면 됨  
+
+### Usage
+> `protocol` 이므로 `class`, `struct`, `enum` 에서 사용가능하다.  
+ 
+```JSON
+{
+	"name" : "iOS",
+	"age" : 26
+}
+```  
+이러한 JSON 객체를  
+
+```swift
+struct Person : Codable {
+    var name : String
+    var age : Int
+}
+```
+이 struct에 변환 가능  
+
+
