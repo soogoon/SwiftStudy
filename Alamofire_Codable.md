@@ -14,7 +14,7 @@
 >
 > `Alamofire.request` 에 다양한 argument 가 존재
 
-**기본 사용법**
+#### 기본 사용법
   ```swift
   Alamofire.request("http://myurl.com")
   ```
