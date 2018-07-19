@@ -179,7 +179,7 @@ Alamofire.request("https://myurl.com/get").validate().responseData { response in
 typealias Codable = Decodable & Encodable
 ```
   
-###정의
+### 정의
 > A type that can convert itself into and out of an external representation.  
 > 자신을 변환하거나 외부표현으로 변환할 수 있는 타입  
 > Decodable : 자신을 외부표현(external representation)에서 디코딩 할 수 있는 타입  
@@ -187,15 +187,17 @@ typealias Codable = Decodable & Encodable
 > 외부표현은 JSON 이라고 생각하면 됨  
 
 ### Usage
-> `protocol` 이므로 `class`, `struct`, `enum` 에서 사용가능하다.  
- 
-```JSON
+> `protocol` 이므로  `class`, `struct`, `enum` 에서 사용가능하다.  
+> 아래에서는 decoding 하는 예제들을 다룸  
+  
+  
+```json
 {
 	"name" : "iOS",
 	"age" : 26
 }
 ```  
-이러한 JSON 객체를  
+이러한 JSON 데이터를  
 
 ```swift
 struct Person : Codable {
@@ -203,6 +205,57 @@ struct Person : Codable {
     var age : Int
 }
 ```
-이 struct에 변환 가능  
+이 struct에 변환 가능하다.
+  
+따라서 JSON 데이터로부터 Person 타입인 값을 얻을 수 있다.
+```swift
+let personData = """
+{
+	"name" : "iOS",
+	"age" : 26
+}
+""".data(using: .utf8)!
 
+let person = try! JSONDecoder().decode(Person.self, from: personData)
+print(person) // Person(name: "iOS", age: 26)
+```
+  
+JSON 데이터의 key값이 Codable 의 key와 1:1로 매칭된다면 자동으로 변환가능하다.
+
+#### Encoding
+> Person -> JSON
+```swift
+let encoder = JSONEncoder()
+let person = Person(name: "iOS", age: 26)
+let jsonData = try? encoder.encode(person)
+
+if let jsonData = jsonData, let jsonString = String(data: jsonData, encoding: .utf8) {
+	print(jsonString) // {"name":"iOS","age":26}
+}
+```
+  
+JSON으로 변환할때 encoder에 `.outputFormatting` 옵션을 줄 수 있다.
+```swift
+encoder.outputFormatting = .sortedKeys // key값으로 JSON 데이터를 정렬
+encoder.outputFormatting = .prettyPrinted
+// {
+//    "name" : "iOS",
+//    "age" : 26
+// }
+
+encoder.outputFormatting = [.sortedKeys, .prettyPrinted] // 두개 동시에 가능
+```
+
+#### Decoding
+> JSON -> Person
+```swift
+let decoder = JSONDecoder()
+var data = jsonString.data(using: .utf8)
+if let data = data, let myPerson = try? decoder.decode(Person.self, from: data) {
+    print(myPerson.name) // iOS
+    print(myPerson.age) // 26
+}
+```
+
+#### CodingKeys
 
