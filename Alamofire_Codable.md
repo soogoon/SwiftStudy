@@ -9,12 +9,34 @@
 > * HTTP Response 의 Validation
 
 ### Request
+
 서버에 요청을 보내기 위해 제공되는 함수
+
 다양한 옵션이 존재
+
+ * 기본 사용법
  ```swift
  Alamofire.request("http://myurl.com")
  ```
+ * HTTP Methods
+ > HTTPMethod enum 이 이미 정의되어있다.
+ ```swift
+ public enum HTTPMethod: String {
+ case options = "OPTIONS"
+ case get     = "GET"
+ case head    = "HEAD"
+ case post    = "POST"
+ case put     = "PUT"
+ case patch   = "PATCH"
+ case delete  = "DELETE"
+ case trace   = "TRACE"
+ case connect = "CONNECT"
+ }
+ ```
+ (아래에서는 REST API 에서 쓰이는 GET, POST, PUT, DELETE 만 다룸)
  
+
+
 
 ## Codable
 > `Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
