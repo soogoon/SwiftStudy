@@ -77,6 +77,7 @@ Swift 에서 HTTP 네트워킹을 위한 대표적인 오픈소스 라이브러�
 
 ### Response Handling
 `Alamofire.request`에 연결하여 reponse handling이 가능하다.  
+  
 다양한 response handler가 제공된다.  
   ```swift
   Alamofire.request("https://myurl.com/get").responseJSON { response in
@@ -136,6 +137,40 @@ func responsePropertyList(
     }
   }
   ```
+### Response Validation
+기본적으로 Alamofire는 response 내용과 상관없이 정상적으로 수행된 request는 모두 `.success`로 처리한다.  
+  
+`validation` 은 허용되지 않는 status code나 [MIME Type](https://developer.mozilla.org/ko/docs/Web/HTTP/Basics_of_HTTP/MIME_types)에 대하여 에러를 검출 할 수 있다.  
+
+#### Manual Validation
+```swift
+Alamofire.request("https://myurl.com/get")
+    .validate(statusCode: 200..<300)
+    .validate(contentType: ["application/json"])
+    .responseData { response in
+        switch response.result {
+        case .success:
+            print("Validation Successful")
+        case .failure(let error):
+            print(error)
+        }
+    }
+```
+
+#### Automatic Validation
+`validation()` 은 자동적으로 status code `200..<300` 범위와, request의 헤더와 일치하는 `Content-Type` 에 대해 유효성을 부여한다.  
+
+```swift
+Alamofire.request("https://myurl.com/get").validate().responseData { response in
+    switch response.result {
+    case .success:
+        print("Validation Successful")
+    case .failure(let error):
+        print(error)
+    }
+}
+```
+
 
 ## Codable
 > `Swift 4` 에서 새롭게 추가된 [Protocol](https://github.com/OhKanghoon/SwiftStudy/blob/master/POP.md#%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9Cprotocol).
