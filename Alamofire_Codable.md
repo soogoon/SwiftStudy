@@ -14,11 +14,11 @@
 >
 > `Alamofire.request` 에 다양한 argument 가 존재
 
-####**기본 사용법**
+####기본 사용법
   ```swift
   Alamofire.request("http://myurl.com")
   ```
-####**HTTP Methods** - `method`
+####HTTP Methods - `method`
   ```swift
   public enum HTTPMethod: String {
 	  case options = "OPTIONS"
@@ -42,7 +42,7 @@
   ```
   > `method` 파라미터의 default 값은 `.get`
  
-####**Paramether Encoding** - `parameters` - `encoding`
+####Paramether Encoding - `parameters` - `encoding`
 > Alamofire는 URL, JSON, PropertyList 등 3가지 매개 변수 인코딩 유형을 지원
 > `ParameterEncoding` protocel을 준수하는 범위에서 custom encoding을 지원
 > `JSONEncoding`만 소개
