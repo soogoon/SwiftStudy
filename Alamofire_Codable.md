@@ -188,7 +188,6 @@ typealias Codable = Decodable & Encodable
 
 ### Usage
 > `protocol` 이므로  `class`, `struct`, `enum` 에서 사용가능하다.  
-> 아래에서는 decoding 하는 예제들을 다룸  
   
   
 ```json
@@ -258,4 +257,46 @@ if let data = data, let myPerson = try? decoder.decode(Person.self, from: data) 
 ```
 
 #### CodingKeys
+만약 JSON의 key 와 다른 이름으로 지정하고 싶다면 `CodingKeys`를 설정해주어야 한다.
+```swift
+struct Person: Codable {
+    var myName: String
+    var myAge: String
 
+    enum CodingKeys: String, CodingKey {
+        case myName = "name"
+		case myAge = "age"
+    }
+}
+```
+  
+Swift 4.1 부터는 snake_case 인 JSON 키값을 자동으로 camelCase의 key와 매칭가능하다고 한다.
+```swift
+{
+	"my_name" : "iOS",
+	"my_age" : 26
+}
+
+let decoder = JSONDecoder()
+decoder.keyDecodingStrategy = .convertFromSnakeCase // 이부분에서 설정
+```
+
+#### 특정 key, value가 없는 경우
+Object는 key, value가 존재하거나 존재하지 않을 수 있기 때문에 특정 key가 없이 데이터가 내려올 수 있다.
+```swift
+* before
+{
+	"name": "iOS",
+	"age": 26
+}
+
+* after
+{
+	"name": "Swift"
+}
+```
+위와 같이 이전에 잘 내려오고 있던 데이터가 갑자기 특정 key가 안내려온다면 `keyNotFound` 에러 발생  
+  
+```swift
+
+```
