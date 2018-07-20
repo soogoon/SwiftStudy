@@ -308,15 +308,15 @@ struct Person: Codable {
 
 	init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-      	myName = (try? values.decode(String.self, forKey: .a)) ?? ""
-        myAge = (try? values.decode(String.self, forKey: .y)) ?? ""
+      	myName = (try? values.decode(String.self, forKey: .myName)) ?? ""
+        myAge = (try? values.decode(String.self, forKey: .myAge)) ?? ""
     }
 }
 ```
 > 이런식으로 직접 decode를 하고 기본값을 넣어주는 방식으로 해결하거나
 ```swift
 struct Person: Codable {
-    var myName: String
+    var myName: String?
     var myAge: Int?
 
     enum CodingKeys: String, CodingKey {
@@ -326,8 +326,8 @@ struct Person: Codable {
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        myName = (try? values.decode(String.self, forKey: .a)) ?? ""
-        myAge = (try? values.decodeIfPresent(String.self, forKey: .y))
+        myName = (try? values.decode(String.self, forKey: .myName))
+        myAge = (try? values.decodeIfPresent(String.self, forKey: .myAge))
     }
 }
 ```
@@ -335,4 +335,41 @@ struct Person: Codable {
 
 ## Alamofire & Codable model
 Alamofire와 Codable을 이용한 request 사용법
+
+* Model
+> `Codable` model 선언
+```swift
+struct Person: Codable {
+	let name: String
+	let age: Int
+
+	enum CodingKeys: String, CodingKey {
+		case name = "user_name"
+		case age = "user_age"
+	}
+}
+```
+
+* Alamofire.request
+> request 후 response handler 호출
+```swift
+func getPersonData(completion: @escaping (Person) -> Void, error: @escaping (String) -> Void) {
+    Alamofire.request(URL).responseData { (res) in
+        switch res.result {
+        case .success:
+            if let value = res.result.value {
+                let decoder = JSONDecoder()
+                do {
+                    let data = try decoder.decode(Person.self, from: value)
+                    completion(data)
+                } catch {
+                    error("error")
+                }
+            }
+        case .failure(let err):
+            error(err)
+        }
+    }
+}
+```
 
