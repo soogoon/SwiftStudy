@@ -192,8 +192,8 @@ typealias Codable = Decodable & Encodable
   
 ```json
 {
-	"name" : "iOS",
-	"age" : 26
+    "name" : "iOS",
+    "age" : 26
 }
 ```  
 이러한 JSON 데이터를  
@@ -210,8 +210,8 @@ struct Person : Codable {
 ```swift
 let personData = """
 {
-	"name" : "iOS",
-	"age" : 26
+    "name" : "iOS",
+    "age" : 26
 }
 """.data(using: .utf8)!
 
