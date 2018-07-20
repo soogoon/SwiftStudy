@@ -265,15 +265,15 @@ struct Person: Codable {
 
     enum CodingKeys: String, CodingKey {
         case myName = "name"
-		case myAge = "age"
+        case myAge = "age"
     }
 }
 ```
 > Swift 4.1 부터는 snake_case 인 JSON key를 자동으로 camelCase의 key와 매칭가능하다고 한다.
 ```swift
 {
-	"my_name" : "iOS",
-	"my_age" : 26
+    "my_name" : "iOS",
+    "my_age" : 26
 }
 
 let decoder = JSONDecoder()
@@ -285,13 +285,13 @@ decoder.keyDecodingStrategy = .convertFromSnakeCase // 이부분에서 설정
 ```swift
 * before
 {
-	"name": "iOS",
-	"age": 26
+    "name": "iOS",
+    "age": 26
 }
 
 * after
 {
-	"name": "Swift"
+    "name": "Swift"
 }
 ```
 > 위와 같이 이전에 잘 내려오고 있던 데이터가 갑자기 특정 key가 안내려온다면 `keyNotFound` 에러 발생  
